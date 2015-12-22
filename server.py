@@ -1,6 +1,6 @@
 from flask import Flask, flash, render_template, request, redirect, url_for
 from flask import session
-from flask.ext.github import GitHub
+from flask.ext.github import GitHub, GitHubError
 
 app = Flask(__name__)
 app.config['GITHUB_CLIENT_ID'] = '23f6a7ed58a974ed0ebc'
@@ -11,7 +11,11 @@ github = GitHub(app)
 
 @app.route('/')
 def index():
-    return render_template('index.html')
+    try:
+        user = github.get('user')
+        return render_template('index.html', user=user)
+    except GitHubError:
+        return render_template('index.html')
 
 
 @app.route('/login')

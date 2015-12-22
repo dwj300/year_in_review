@@ -1,10 +1,10 @@
 from flask import Flask, flash, render_template, request, redirect, url_for
 from flask import session
 from flask.ext.github import GitHub, GitHubError
-
+# ToDo: Before going public make sure to make these environemnt variables...
 app = Flask(__name__)
-app.config['GITHUB_CLIENT_ID'] = '23f6a7ed58a974ed0ebc'
-app.config['GITHUB_CLIENT_SECRET'] = 'f619bf337176c0adf443f37a298663ba2c9d8843'
+app.config['GITHUB_CLIENT_ID'] = '2be5054af9310faa5019'
+app.config['GITHUB_CLIENT_SECRET'] = 'e6cee1a10872488d875f9408432be467cb40ea22'
 app.secret_key = 'A0Zr98j/3yX R~XHH!jmN]LWX/RTRT'
 github = GitHub(app)
 
@@ -13,7 +13,7 @@ github = GitHub(app)
 def index():
     if 'username' in session:
         return render_template('index.html', username=username, name=name)
-    except GitHubError:
+    else:
         return render_template('index.html')
 
 

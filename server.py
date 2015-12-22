@@ -18,6 +18,11 @@ def index():
 def login():
     return github.authorize()
 
+@app.route('/logout')
+def logout():
+    session.pop('token', None)
+    return redirect(url_for('index')
+
 
 @app.route('/github-callback')
 @github.authorized_handler

@@ -16,12 +16,13 @@ def index():
 
 @app.route('/login')
 def login():
-    return github.authorize()
+    return github.authorize(scope="repo:status")
+
 
 @app.route('/logout')
 def logout():
     session.pop('token', None)
-    return redirect(url_for('index')
+    return redirect(url_for('index'))
 
 
 @app.route('/github-callback')

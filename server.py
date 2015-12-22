@@ -11,9 +11,8 @@ github = GitHub(app)
 
 @app.route('/')
 def index():
-    try:
-        user = github.get('user')
-        return render_template('index.html', user=user)
+    if 'username' in session:
+        return render_template('index.html', username=username, name=name)
     except GitHubError:
         return render_template('index.html')
 
@@ -26,6 +25,10 @@ def login():
 @app.route('/logout')
 def logout():
     session.pop('token', None)
+    session.pop('github_user_id', None)
+    session.pop('username', None)
+    session.pop('name', None)
+    session.pop('avatar_url', None)
     return redirect(url_for('index'))
 
 
@@ -37,6 +40,19 @@ def authorized(oauth_token):
         flash("Authorization failed.")
         return redirect(next_url)
     session['token'] = oauth_token
+    try:
+        response = github.get('user', params={'access_token': oauth_token})
+    except GitHubError:
+        flash(
+            'something failed in github login process, sorry for that',
+            category='danger'
+        )
+        return redirect(url_for('index.index'))
+
+    session['github_user_id'] = response['id']
+    session['username'] = response['login']
+    session['name'] = response['name']
+    session['avatar_url'] = response['avatar_url']
 
     """user = User.query.filter_by(github_access_token=oauth_token).first()
     if user is None:

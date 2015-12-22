@@ -1,6 +1,7 @@
 from flask import Flask, flash, render_template, request, redirect, url_for
 from flask import session
 from flask.ext.github import GitHub, GitHubError
+
 # ToDo: Before going public make sure to make these environemnt variables...
 app = Flask(__name__)
 app.config['GITHUB_CLIENT_ID'] = '2be5054af9310faa5019'

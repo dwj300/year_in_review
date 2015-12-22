@@ -13,7 +13,7 @@ github = GitHub(app)
 @app.route('/')
 def index():
     if 'username' in session:
-        return render_template('index.html', username=username, name=name)
+        return render_template('index.html', username=sessions['username'], name=sessions['name'])
     else:
         return render_template('index.html')
 

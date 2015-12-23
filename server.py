@@ -4,6 +4,9 @@ from flask.ext.github import GitHub, GitHubError
 from github import Github
 from datetime import datetime
 from collections import namedtuple
+import os
+import json
+import pika
 # ToDo: Before going public make sure to make these environemnt variables...
 # ToDo: cleanup before posting on HackerNews and becoming famous
 # ToDo: make it look like legit.
@@ -13,14 +16,25 @@ app = Flask(__name__)
 app.config['GITHUB_CLIENT_ID'] = '2be5054af9310faa5019'
 app.config['GITHUB_CLIENT_SECRET'] = 'e6cee1a10872488d875f9408432be467cb40ea22'
 app.secret_key = 'A0Zr98j/3yX R~XHH!jmN]LWX/RTRT'
+url = os.environ.get('CLOUDAMQP_URL', 'amqp://guest:guest@localhost/%2f')
 github = GitHub(app)
+
+# Queue stuff
+url = os.environ.get('CLOUDAMQP_URL', 'amqp://guest:guest@localhost/%2f')
+params = pika.URLParameters(url)
+params.socket_timeout = 5
+connection = pika.BlockingConnection(params)  # Connect to CloudAMQP
+channel = connection.channel()  # start a channel
+channel.queue_declare(queue='work')  # Declare a queue
 
 
 @app.route('/')
 def index():
     print("foo")
     if 'username' in session:
-        return render_template('index.html', username=session['username'], name=session['name'])
+        return render_template('index.html',
+                               username=session['username'],
+                               name=session['name'])
     else:
         return render_template('index.html')
 
@@ -81,6 +95,15 @@ def token_getter():
 
 @app.route('/review')
 def review():
+    # Parse CLODUAMQP_URL (fallback to localhost)
+    # send a message
+    data = {'token': session['token'], 'username': session['username']}
+    channel.basic_publish(exchange='',
+                          routing_key='work',
+                          body=json.dumps(data))
+    print(" [x] Sent" + json.dumps(data))
+    resp = render_template('review.html')
+
     # ToDo: deal with private!
     # ToDo: also filter by org or nah
     # maybe move to new method, or even class
@@ -114,7 +137,7 @@ def review():
                 add += stats.additions
                 dele += stats.deletions
             print(len(my_commits))
-            my_repo.num_commits = len(my_commits) 
+            my_repo.num_commits = len(my_commits)
             if my_repo.num_commits > 0:
                 my_repos.append(my_repo)
         except:

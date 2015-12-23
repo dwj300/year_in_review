@@ -54,7 +54,7 @@ def authorized(oauth_token):
     session['username'] = response['login']
     session['name'] = response['name']
     session['avatar_url'] = response['avatar_url']
-
+    session['user'] = response
     """user = User.query.filter_by(github_access_token=oauth_token).first()
     if user is None:
         user = User(oauth_token)
@@ -73,9 +73,8 @@ def token_getter():
 
 @app.route('/review')
 def review():
-    username = request.args.get('username', '')
-    print(username)
-    return render_template('review.html', username=username)
+    return session['user']
+    # return render_template('review.html', username=session['username'], name=session['name'], user=)
 
 if __name__ == '__main__':
     app.run(debug=True)

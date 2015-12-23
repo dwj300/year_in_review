@@ -43,8 +43,8 @@ def logout():
 @app.route('/github-callback')
 @github.authorized_handler
 def authorized(oauth_token):
-    # next_url = request.args.get('next') or url_for('index')
-    next_url = url_for('review')
+    next_url = request.args.get('next') or url_for('index')
+    # next_url = url_for('review')
     if oauth_token is None:
         flash("Authorization failed.")
         return redirect(next_url)

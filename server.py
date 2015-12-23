@@ -99,6 +99,8 @@ def review():
     user = gh.get_user()
     repos = user.get_repos()
     my_repos = []
+    add = 0
+    dele = 0
     for repo in repos:
         my_repo = namedtuple('Repo', ['name', 'num_commits'])
         print(repo.name)
@@ -108,6 +110,9 @@ def review():
             my_commits = []
             for commit in commits:
                 my_commits.append(commit)
+                stats = commit.stats
+                add += stats.additions
+                dele += stats.deletions
             print(len(my_commits))
             my_repo.num_commits = len(my_commits) 
             if my_repo.num_commits > 0:
@@ -120,7 +125,9 @@ def review():
                            username=session['username'],
                            name=session['name'],
                            repos=my_repos,
-                           total=total)
+                           total=total,
+                           add=add,
+                           dele=dele)
     print("hmm")
     f = open('static/'+session['username']+".html", 'w+')
     print("hmm1")

@@ -1,11 +1,11 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
-    <meta property="og:url"           content="https://year-in-review.herokuapp.com/static/{{ username }}.html" />
-    <meta property="og:type"          content="website" />
-    <meta property="og:title"         content="{{ username }}'s GitHub year in review" />
-    <meta property="og:description"   content="Here is my github year in review. Create yours at http://year-in-review.herokuapp.com" />
-    <meta property="og:image"         content="https://camo.githubusercontent.com/4516a586e5a1c582f9eafc753344204ef9eda9f0/68747470733a2f2f662e636c6f75642e6769746875622e636f6d2f6173736574732f37323931392f3338313630392f30636637626537302d613565332d313165322d383934332d3661633761393533663236642e6a7067" />
+    <meta property="og:url" content="https://year-in-review.herokuapp.com/static/{{ username }}.html" />
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="{{ username }}'s GitHub year in review" />
+    <meta property="og:description" content="Here is my github year in review. Create yours at http://year-in-review.herokuapp.com" />
+    <meta property="og:image" content="https://camo.githubusercontent.com/4516a586e5a1c582f9eafc753344204ef9eda9f0/68747470733a2f2f662e636c6f75642e6769746875622e636f6d2f6173736574732f37323931392f3338313630392f30636637626537302d613565332d313165322d383934332d3661633761393533663236642e6a7067" />
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -36,6 +36,7 @@
     <div class="container">
       <h1>Here is your reivew, {{ username }}</h1>
       <p>You had: {{ total }} commits in the last year</p>
+      <p>{{ add }} additions, and {{ dele }} deletions</p>
       {% for repo in repos %}
       <p>{{ repo.name }} - {{ repo.num_commits }}</p>
       {% endfor %}

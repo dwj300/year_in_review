@@ -103,7 +103,7 @@ def review():
                           body=json.dumps(data))
     print(" [x] Sent" + json.dumps(data))
     resp = render_template('review.html')
-
+    return resp
     # ToDo: deal with private!
     # ToDo: also filter by org or nah
     # maybe move to new method, or even class

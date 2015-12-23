@@ -112,11 +112,21 @@ def review():
             my_repos.append(my_repo)
     my_repos.sort(key=lambda x: x.num_commits, reverse=True)
     total = sum(r.num_commits for r in my_repos)
-    return render_template('review.html',
+    resp = render_template('review.html',
                            username=session['username'],
                            name=session['name'],
                            repos=my_repos,
                            total=total)
+    f = open('static/'+session['username']+".html", 'w+')
+    f.write(resp)
+    f.close()
+    return resp
+
+
+@app.errorhandler(404)
+def page_not_found(error):
+    """Custom 404 page."""
+    return render_template('404.html'), 404
 
 if __name__ == '__main__':
     app.run(debug=True)

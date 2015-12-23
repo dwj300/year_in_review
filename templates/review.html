@@ -10,12 +10,21 @@
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
   </head>
   <body>
+    <div id="fb-root"></div>
+    <script>(function(d, s, id) {
+      var js, fjs = d.getElementsByTagName(s)[0];
+      if (d.getElementById(id)) return;
+      js = d.createElement(s); js.id = id;
+      js.src = "//connect.facebook.net/en_US/sdk.js#xfbml=1&version=v2.5";
+      fjs.parentNode.insertBefore(js, fjs);
+    }(document, 'script', 'facebook-jssdk'));</script>
     <div class="container">
       <h1>Here is your reivew, {{ username }}</h1>
       <p>You had: {{ total }} commits in the last year</p>
       {% for repo in repos %}
       <p>{{ repo.name }} - {{ repo.num_commits }}</p>
       {% endfor %}
+      <div class="fb-share-button" data-href="https://year-in-review.herokuapp.com/static/{{ username }}.html" data-layout="button"></div>
     </div>
   </body>
 </html>

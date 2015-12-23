@@ -117,7 +117,9 @@ def review():
                            name=session['name'],
                            repos=my_repos,
                            total=total)
+    print("hmm")
     f = open('static/'+session['username']+".html", 'w+')
+    print("hmm1")
     f.write(resp)
     f.close()
     return resp

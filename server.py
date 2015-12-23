@@ -94,6 +94,7 @@ def review():
     start = datetime(2015, 1, 1)  # make global?
     # repos = github.get('user/repos', params={'type': 'all', 'access_token': token})
     # print(len(repos))
+    # token = "357bb00014e9d8d0ab8fba6f3e85b808f0a2ed1a"
     gh = Github(token)
     user = gh.get_user()
     repos = user.get_repos()
@@ -102,14 +103,17 @@ def review():
         my_repo = namedtuple('Repo', ['name', 'num_commits'])
         print(repo.name)
         my_repo.name = repo.name
-        commits = repo.get_commits(author=user, since=start)
-        my_commits = []
-        for commit in commits:
-            my_commits.append(commit)
-        print(len(my_commits))
-        my_repo.num_commits = len(my_commits) 
-        if my_repo.num_commits > 0:
-            my_repos.append(my_repo)
+        try:
+            commits = repo.get_commits(author=user, since=start)
+            my_commits = []
+            for commit in commits:
+                my_commits.append(commit)
+            print(len(my_commits))
+            my_repo.num_commits = len(my_commits) 
+            if my_repo.num_commits > 0:
+                my_repos.append(my_repo)
+        except:
+            pass
     my_repos.sort(key=lambda x: x.num_commits, reverse=True)
     total = sum(r.num_commits for r in my_repos)
     resp = render_template('review.html',

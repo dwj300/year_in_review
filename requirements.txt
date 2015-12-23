@@ -2,3 +2,4 @@ Flask==0.10.1
 GitHub-Flask==3.1.1
 gunicorn==19.4.1
 PyGithub==1.26.0
+pika==0.10.0

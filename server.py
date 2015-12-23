@@ -1,8 +1,14 @@
 from flask import Flask, flash, render_template, request, redirect, url_for
 from flask import session
 from flask.ext.github import GitHub, GitHubError
-
+from github import Github
+from datetime import datetime
+from collections import namedtuple
 # ToDo: Before going public make sure to make these environemnt variables...
+# ToDo: cleanup before posting on HackerNews and becoming famous
+# ToDo: make it look like legit.
+# ToDo: DO NOT FORGET GOOGLE HIT COUNTER
+
 app = Flask(__name__)
 app.config['GITHUB_CLIENT_ID'] = '2be5054af9310faa5019'
 app.config['GITHUB_CLIENT_SECRET'] = 'e6cee1a10872488d875f9408432be467cb40ea22'
@@ -21,7 +27,7 @@ def index():
 
 @app.route('/login')
 def login():
-    return github.authorize(scope="repo:status")
+    return github.authorize(scope="repo")
 
 
 @app.route('/logout')
@@ -74,8 +80,42 @@ def token_getter():
 
 @app.route('/review')
 def review():
-    return session['user']
-    # return render_template('review.html', username=session['username'], name=session['name'], user=)
+    # ToDo: deal with private!
+    # ToDo: also filter by org or nah
+    # maybe move to new method, or even class
+    private = True
+    """print(session['user'].keys())
+    user = session['user']"""
+    token = session['token']
+    # repos_url = user['repos_url']
+    # print(repos_url)
+    print(token)
+    start = datetime(2015, 1, 1)  # make global?
+    # repos = github.get('user/repos', params={'type': 'all', 'access_token': token})
+    # print(len(repos))
+    gh = Github(token)
+    user = gh.get_user()
+    repos = user.get_repos()
+    my_repos = []
+    for repo in repos:
+        my_repo = namedtuple('Repo', ['name', 'num_commits'])
+        print(repo.name)
+        my_repo.name = repo.name
+        commits = repo.get_commits(author=user, since=start)
+        my_commits = []
+        for commit in commits:
+            my_commits.append(commit)
+        print(len(my_commits))
+        my_repo.num_commits = len(my_commits) 
+        if my_repo.num_commits > 0:
+            my_repos.append(my_repo)
+    my_repos.sort(key=lambda x: x.num_commits, reverse=True)
+    total = sum(r.num_commits for r in my_repos)
+    return render_template('review.html',
+                           username=session['username'],
+                           name=session['name'],
+                           repos=my_repos,
+                           total=total)
 
 if __name__ == '__main__':
     app.run(debug=True)

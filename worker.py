@@ -6,7 +6,7 @@ from datetime import datetime
 from github import Github
 from collections import namedtuple
 from flask import render_template
-from .server import app
+from server import app
 
 logging.basicConfig()
 

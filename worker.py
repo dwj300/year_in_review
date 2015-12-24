@@ -20,6 +20,7 @@ connection = pika.BlockingConnection(params)  # Connect to CloudAMQP
 channel = connection.channel()   # start a channel
 channel.queue_declare(queue='work')  # Declare a queue
 SERVER_NAME = os.environ.get('SERVER_NAME', 'localhost:5000')
+app['SERVER_NAME'] = SERVER_NAME
 
 # create a function which is called on incoming messages
 def do_work(ch, method, properties, body):

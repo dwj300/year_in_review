@@ -102,7 +102,7 @@ def review():
                           routing_key='work',
                           body=json.dumps(data))
     print(" [x] Sent" + json.dumps(data))
-    resp = render_template('review.html')
+    resp = render_template('wait.html', username=session['username'])
     return resp
     # ToDo: deal with private!
     # ToDo: also filter by org or nah

@@ -6,6 +6,8 @@ from datetime import datetime
 from github import Github
 from collections import namedtuple
 from flask import render_template
+from .server import app
+
 logging.basicConfig()
 
 url = os.environ.get('CLOUDAMQP_URL', 'amqp://guest:guest@localhost/%2f')
@@ -62,12 +64,13 @@ def do_work(ch, method, properties, body):
             pass
     my_repos.sort(key=lambda x: x.num_commits, reverse=True)
     total = sum(r.num_commits for r in my_repos)
-    resp = render_template('review.html',
-                           username=username,
-                           repos=my_repos,
-                           total=total,
-                           add=add,
-                           dele=dele)
+    with app.app_context():
+        resp = render_template('review.html',
+                               username=username,
+                               repos=my_repos,
+                               total=total,
+                               add=add,
+                               dele=dele)
     print("hmm")
     f = open('static/'+username+".html", 'w+')
     print("hmm1")

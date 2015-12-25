@@ -7,6 +7,7 @@ from github import Github
 from collections import namedtuple
 from flask import render_template
 from server import app
+from azure.storage.blob import BlobService
 
 logging.basicConfig()
 
@@ -21,6 +22,11 @@ channel = connection.channel()   # start a channel
 channel.queue_declare(queue='work')  # Declare a queue
 SERVER_NAME = os.environ.get('SERVER_NAME', 'localhost:5000')
 app.config['SERVER_NAME'] = SERVER_NAME
+
+account_name = os.environ.get('AZURE_NAME', '')
+account_key = os.environ.get('AZURE_KEY', '')
+
+blob_service = BlobService(account_name, account_key)
 
 # create a function which is called on incoming messages
 def do_work(ch, method, properties, body):
@@ -73,12 +79,12 @@ def do_work(ch, method, properties, body):
                                add=add,
                                dele=dele)
     print("hmm")
-    f = open('static/'+username+".html", 'w+')
+    # f = open('static/'+username+".html", 'w+')
     print("hmm1")
-    f.write(resp)
-    f.close()
+    # f.write(resp)
+    # f.close()
+    blob_service.put_blob('static', username+".html", resp)
     print("done with " + username)
-
 
 def setup():
     # set up subscription on the queue

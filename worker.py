@@ -83,7 +83,7 @@ def do_work(ch, method, properties, body):
     print("hmm1")
     # f.write(resp)
     # f.close()
-    blob_service.put_blob('static', username+".html", resp,  x_ms_blob_type='BlockBlob')
+    blob_service.put_blob('static', username+".html", resp.encode(),  x_ms_blob_type='BlockBlob')
     print("done with " + username)
 
 def setup():

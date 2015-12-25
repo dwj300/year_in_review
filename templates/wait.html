@@ -19,7 +19,7 @@
     });
    
     function dowork() {
-      $.get( function() { window.location.replace(url); }).fail(function() { setTimeout(function() { dowork(); }, 1000) });
+      $.get(url, function() { window.location.replace(url); }).fail(function() { setTimeout(function() { dowork(); }, 1000) });
     }
   </script>
   </head>

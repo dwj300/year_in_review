@@ -1,4 +1,4 @@
-import logging
+# import logging
 import os
 import pika
 import json
@@ -9,7 +9,7 @@ from flask import render_template
 from server import app
 from azure.storage.blob import BlobService
 
-logging.basicConfig()
+# logging.basicConfig()
 
 url = os.environ.get('CLOUDAMQP_URL', 'amqp://guest:guest@localhost/%2f')
 

@@ -16,7 +16,6 @@ app = Flask(__name__)
 app.config['GITHUB_CLIENT_ID'] = '2be5054af9310faa5019'
 app.config['GITHUB_CLIENT_SECRET'] = 'e6cee1a10872488d875f9408432be467cb40ea22'
 app.secret_key = 'A0Zr98j/3yX R~XHH!jmN]LWX/RTRT'
-url = os.environ.get('CLOUDAMQP_URL', 'amqp://guest:guest@localhost/%2f')
 github = GitHub(app)
 
 # Queue stuff

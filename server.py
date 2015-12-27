@@ -96,7 +96,7 @@ def token_getter():
 def review():
     # Parse CLODUAMQP_URL (fallback to localhost)
     # send a message
-    data = {'token': session['token'], 'username': session['username']}
+    data = {'token': session['token'], 'username': session['username'], 'name': session['name']}
     channel.basic_publish(exchange='',
                           routing_key='work',
                           body=json.dumps(data))

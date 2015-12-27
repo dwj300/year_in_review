@@ -43,6 +43,7 @@ def do_work(ch, method, properties, body):
     # token = session['token']
     token = data['token']
     username = data['username']
+    name = data['name']
     # repos_url = user['repos_url']
     # print(repos_url)
     print(token)
@@ -88,7 +89,8 @@ def do_work(ch, method, properties, body):
                                dele='{0:,}'.format(dele),
                                days=days,
                                best_day_num=best_day_num,
-                               best_day=DAYS[best_day])
+                               best_day=DAYS[best_day],
+                               name=name)
     print("hmm")
     # f = open('static/'+username+".html", 'w+')
     print("hmm1")

@@ -85,8 +85,9 @@ def do_work(ch, method, properties, body):
     best_day = days.index(best_day_num)
     heat = {}
     for i, v in enumerate(heatmap):
-        d = datetime(2015, 1, 1) + timedelta(i)
-        heat[str(d.timestamp())] = v
+        if v > 0:
+            d = datetime(2015, 1, 1) + timedelta(i)
+            heat[str(d.timestamp())] = v
     with app.app_context():
         resp = render_template('review.html',
                                username=username,

@@ -28,6 +28,8 @@ account_key = os.environ.get('AZURE_KEY', '')
 
 blob_service = BlobService(account_name, account_key)
 
+DAYS = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday']
+
 # create a function which is called on incoming messages
 def do_work(ch, method, properties, body):
     print("[x] Received {0}".format(body))
@@ -44,6 +46,7 @@ def do_work(ch, method, properties, body):
     # repos_url = user['repos_url']
     # print(repos_url)
     print(token)
+    days = [0 for _ in range(7)]
     start = datetime(2015, 1, 1)  # make global?
     gh = Github(token)
     user = gh.get_user()
@@ -63,6 +66,9 @@ def do_work(ch, method, properties, body):
                 stats = commit.stats
                 add += stats.additions
                 dele += stats.deletions
+                # 0 is monday
+                day = commit.commit.author.date.weekday()
+                days[day] += 1
             print(len(my_commits))
             my_repo.num_commits = len(my_commits)
             if my_repo.num_commits > 0:
@@ -71,13 +77,18 @@ def do_work(ch, method, properties, body):
             pass
     my_repos.sort(key=lambda x: x.num_commits, reverse=True)
     total = sum(r.num_commits for r in my_repos)
+    best_day_num = max(days)
+    best_day = days.index(best_day_num)
     with app.app_context():
         resp = render_template('review.html',
                                username=username,
                                repos=my_repos,
                                total=total,
                                add='{0:,}'.format(add),
-                               dele='{0:,}'.format(dele))
+                               dele='{0:,}'.format(dele),
+                               days=days,
+                               best_day_num=best_day_num,
+                               best_day=DAYS[best_day])
     print("hmm")
     # f = open('static/'+username+".html", 'w+')
     print("hmm1")

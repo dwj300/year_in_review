@@ -125,6 +125,7 @@
                   {% for repo in repos %}
                   <p>{{ repo.name }} - {{ repo.num_commits }}</p>
                   {% endfor %}
+                  <p>Your busiest day of the week was {{ best_day }}, with {{ best_day_num }} commits</p>
                   <div class="fb-share-button" data-href="https://year-in-review.herokuapp.com/static/{{ username }}.html" data-layout="button"></div>
                 </div>
             </div>

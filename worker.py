@@ -48,6 +48,7 @@ def do_work(ch, method, properties, body):
     # print(repos_url)
     print(token)
     days = [0 for _ in range(7)]
+    heatmap = [0 for _ in range(365)]
     start = datetime(2015, 1, 1)  # make global?
     gh = Github(token)
     user = gh.get_user()
@@ -70,6 +71,8 @@ def do_work(ch, method, properties, body):
                 # 0 is monday
                 day = commit.commit.author.date.weekday()
                 days[day] += 1
+                day_of_year = commit.commit.author.date.timetuple().tm_yday
+                heatmap[day_of_year] += 1
             print(len(my_commits))
             my_repo.num_commits = len(my_commits)
             if my_repo.num_commits > 0:
@@ -80,6 +83,10 @@ def do_work(ch, method, properties, body):
     total = sum(r.num_commits for r in my_repos)
     best_day_num = max(days)
     best_day = days.index(best_day_num)
+    heat = {}
+    for i, v in enumerate(heatmap):
+        d = datetime(2015, 1, 1) + datetime.timedelta(i)
+        heat[str(d.timestamp())] = v
     with app.app_context():
         resp = render_template('review.html',
                                username=username,
@@ -90,7 +97,8 @@ def do_work(ch, method, properties, body):
                                days=days,
                                best_day_num=best_day_num,
                                best_day=DAYS[best_day],
-                               name=name)
+                               name=name,
+                               heat=heat)
     print("hmm")
     # f = open('static/'+username+".html", 'w+')
     print("hmm1")

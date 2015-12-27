@@ -76,8 +76,8 @@ def do_work(ch, method, properties, body):
                                username=username,
                                repos=my_repos,
                                total=total,
-                               add=add,
-                               dele=dele)
+                               add='{0:,}'.format(add),
+                               dele='{0:,}'.format(dele))
     print("hmm")
     # f = open('static/'+username+".html", 'w+')
     print("hmm1")

@@ -62,10 +62,11 @@
 
     <script>
       var heat_data = {
-        {% for k,v in heat %}
-        "k": v,
+        {% for k,v in heat.iteritems() %}
+        "{{ k|e }}": {{ v|e }},
         {% endfor %}
       }
+    </script>
         
     <script type="text/javascript">
         $(document).ready(function() {

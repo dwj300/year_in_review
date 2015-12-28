@@ -11,8 +11,6 @@ from azure.storage.blob import BlobService
 
 logging.basicConfig()
 
-url = os.environ.get('CLOUDAMQP_URL', 'amqp://guest:guest@localhost/%2f')
-
 # Parse CLODUAMQP_URL (fallback to localhost)
 url = os.environ.get('CLOUDAMQP_URL', 'amqp://guest:guest@localhost/%2f')
 params = pika.URLParameters(url)
@@ -28,7 +26,9 @@ account_key = os.environ.get('AZURE_KEY', '')
 
 blob_service = BlobService(account_name, account_key)
 
-DAYS = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday']
+DAYS = ['Monday', 'Tuesday', 'Wednesday', 'Thursday',
+        'Friday', 'Saturday', 'Sunday']
+
 
 # create a function which is called on incoming messages
 def do_work(ch, method, properties, body):
@@ -94,6 +94,9 @@ def do_work(ch, method, properties, body):
         if v > 0:
             d = datetime(2015, 1, 1) + timedelta(i)
             heat[str(d.timestamp())] = v
+    pub = ""
+    if public:
+        pub = " public"
     with app.app_context():
         resp = render_template('review.html',
                                username=username,
@@ -105,14 +108,18 @@ def do_work(ch, method, properties, body):
                                best_day_num=best_day_num,
                                best_day=DAYS[best_day],
                                name=name,
-                               heat=heat)
+                               heat=heat,
+                               public=pub)
     print("hmm")
     # f = open('static/'+username+".html", 'w+')
     print("hmm1")
     # f.write(resp)
     # f.close()
-    blob_service.put_blob('static', username+".html", resp.encode(),  x_ms_blob_type='BlockBlob', x_ms_blob_content_type="text/html")
+    blob_service.put_blob('static', username+".html", resp.encode(),
+                          x_ms_blob_type='BlockBlob',
+                          x_ms_blob_content_type="text/html")
     print("done with " + username)
+
 
 def setup():
     # set up subscription on the queue

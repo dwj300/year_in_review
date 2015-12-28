@@ -149,7 +149,7 @@
                 <p>Commit Data here</p>
                 <div class="container">
                   <h1>Here is your reivew, {{ username }}</h1>
-                  <p>You had: {{ total }} commits in the last year</p>
+                  <p>You had: {{ total }}{{ public }} commits in the last year</p>
                   <p>{{ add }} additions, and {{ dele }} deletions</p>
                   {% for repo in repos %}
                   <p>{{ repo.name }} - {{ repo.num_commits }}</p>

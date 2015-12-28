@@ -1,24 +1,21 @@
 from flask import Flask, flash, render_template, request, redirect, url_for
 from flask import session
 from flask.ext.github import GitHub, GitHubError
-from github import Github
-from datetime import datetime
-from collections import namedtuple
 import os
 import json
 import pika
-# ToDo: Before going public make sure to make these environemnt variables...
-# ToDo: cleanup before posting on HackerNews and becoming famous
-# ToDo: make it look like legit.
-# ToDo: DO NOT FORGET GOOGLE HIT COUNTER
+
+# todo: cleanup before posting on HackerNews and becoming famous
+# todo: make it look like legit.
+# todo: DO NOT FORGET GOOGLE HIT COUNTER
 # todo: add delete option...
 # todo: add warnign about private info
 # todo: add robots
 
 app = Flask(__name__)
-app.config['GITHUB_CLIENT_ID'] = '2be5054af9310faa5019'
-app.config['GITHUB_CLIENT_SECRET'] = 'e6cee1a10872488d875f9408432be467cb40ea22'
-app.secret_key = 'A0Zr98j/3yX R~XHH!jmN]LWX/RTRT'
+app.config['GITHUB_CLIENT_ID'] = os.environ['GITHUB_CLIENT_ID']
+app.config['GITHUB_CLIENT_SECRET'] = os.environ['GITHUB_CLIENT_SECRET']
+app.secret_key = os.environ['SECRET_KEY']
 github = GitHub(app)
 
 # Queue stuff
@@ -79,13 +76,6 @@ def authorized(oauth_token):
     session['name'] = response['name']
     session['avatar_url'] = response['avatar_url']
     session['user'] = response
-    """user = User.query.filter_by(github_access_token=oauth_token).first()
-    if user is None:
-        user = User(oauth_token)
-        db_session.add(user)
-
-    user.github_access_token = oauth_token
-    db_session.commit()"""
     return redirect(next_url)
 
 
@@ -102,9 +92,12 @@ def str2bool(v):
 @app.route('/review/<public_str>')
 def review(public_str):
     public = str2bool(public_str)
-    # Parse CLODUAMQP_URL (fallback to localhost)
-    # send a message
-    data = {'token': session['token'], 'username': session['username'], 'name': session['name'], 'public': public}
+    token = session['token']
+    username = session['username']
+    name = session['name']
+
+    data = {'token': token, 'username': username,
+            'name': name, 'public': public}
     channel.basic_publish(exchange='',
                           routing_key='work',
                           body=json.dumps(data))
@@ -114,57 +107,6 @@ def review(public_str):
     # ToDo: deal with private!
     # ToDo: also filter by org or nah
     # maybe move to new method, or even class
-    """
-    private = True
-    print(session['user'].keys())
-    user = session['user']
-    token = session['token']
-    # repos_url = user['repos_url']
-    # print(repos_url)
-    print(token)
-    start = datetime(2015, 1, 1)  # make global?
-    # repos = github.get('user/repos', params={'type': 'all', 'access_token': token})
-    # print(len(repos))
-    # token = "357bb00014e9d8d0ab8fba6f3e85b808f0a2ed1a"
-    gh = Github(token)
-    user = gh.get_user()
-    repos = user.get_repos()
-    my_repos = []
-    add = 0
-    dele = 0
-    for repo in repos:
-        my_repo = namedtuple('Repo', ['name', 'num_commits'])
-        print(repo.name)
-        my_repo.name = repo.name
-        try:
-            commits = repo.get_commits(author=user, since=start)
-            my_commits = []
-            for commit in commits:
-                my_commits.append(commit)
-                stats = commit.stats
-                add += stats.additions
-                dele += stats.deletions
-            print(len(my_commits))
-            my_repo.num_commits = len(my_commits)
-            if my_repo.num_commits > 0:
-                my_repos.append(my_repo)
-        except:
-            pass
-    my_repos.sort(key=lambda x: x.num_commits, reverse=True)
-    total = sum(r.num_commits for r in my_repos)
-    resp = render_template('review.html',
-                           username=session['username'],
-                           name=session['name'],
-                           repos=my_repos,
-                           total=total,
-                           add=add,
-                           dele=dele)
-    print("hmm")
-    f = open('static/'+session['username']+".html", 'w+')
-    print("hmm1")
-    f.write(resp)
-    f.close()
-    return resp"""
 
 
 @app.errorhandler(404)

@@ -11,6 +11,9 @@ import pika
 # ToDo: cleanup before posting on HackerNews and becoming famous
 # ToDo: make it look like legit.
 # ToDo: DO NOT FORGET GOOGLE HIT COUNTER
+# todo: add delete option...
+# todo: add warnign about private info
+# todo: add robots
 
 app = Flask(__name__)
 app.config['GITHUB_CLIENT_ID'] = '2be5054af9310faa5019'

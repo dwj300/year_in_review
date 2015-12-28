@@ -9,9 +9,10 @@ from azure.storage.blob import BlobService
 # todo: cleanup before posting on HackerNews and becoming famous
 # todo: make it look like legit.
 # todo: DO NOT FORGET GOOGLE HIT COUNTER
-# todo: add delete option...
 # todo: add warnign about private info
 # todo: add robots
+# todo: add messages!!! (should be easy)
+# todo: add graph of commits vs day of week!
 
 app = Flask(__name__)
 app.config['GITHUB_CLIENT_ID'] = os.environ['GITHUB_CLIENT_ID']

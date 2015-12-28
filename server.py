@@ -61,8 +61,9 @@ def logout():
 
 @app.route('/delete')
 def delete():
-    username = session['username']
-    blob_service.delete_blob('static', username+".html")
+    if 'username' in session:
+        username = session['username']
+        blob_service.delete_blob('static', username+".html")
     return redirect(url_for('index'))
 
 

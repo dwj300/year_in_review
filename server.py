@@ -96,7 +96,7 @@ def str2bool(v):
     return v.lower() in ("yes", "true", "t", "1")
 
 
-@app.route('/review<private_str>')
+@app.route('/review/<private_str>')
 def review(private_str):
     private = str2bool(private_str)
     # Parse CLODUAMQP_URL (fallback to localhost)

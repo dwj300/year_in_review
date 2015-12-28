@@ -4,6 +4,7 @@ from flask.ext.github import GitHub, GitHubError
 import os
 import json
 import pika
+from azure.storage.blob import BlobService
 
 # todo: cleanup before posting on HackerNews and becoming famous
 # todo: make it look like legit.
@@ -25,6 +26,11 @@ params.socket_timeout = 5
 connection = pika.BlockingConnection(params)  # Connect to CloudAMQP
 channel = connection.channel()  # start a channel
 channel.queue_declare(queue='work')  # Declare a queue
+
+# Azure storage
+account_name = os.environ.get('AZURE_NAME', '')
+account_key = os.environ.get('AZURE_KEY', '')
+blob_service = BlobService(account_name, account_key)
 
 
 @app.route('/')
@@ -50,6 +56,13 @@ def logout():
     session.pop('username', None)
     session.pop('name', None)
     session.pop('avatar_url', None)
+    return redirect(url_for('index'))
+
+
+@app.route('/delete')
+def delete():
+    username = session['username']
+    blob_service.delete_blob('static', username+".html")
     return redirect(url_for('index'))
 
 

@@ -39,7 +39,7 @@ def do_work(ch, method, properties, body):
     # ToDo: deal with private!
     # ToDo: also filter by org or nah
     # maybe move to new method, or even class
-    private = data['private']  # True
+    public = data['public']  # True
     # token = session['token']
     token = data['token']
     username = data['username']
@@ -53,9 +53,11 @@ def do_work(ch, method, properties, body):
     gh = Github(token)
     user = gh.get_user()
     repos = None
-    if not private:
+    if public:
+        print('public')
         repos = user.get_repos(type="public")
     else:
+        print('private')
         repos = user.get_repos()
     my_repos = []
     add = 0

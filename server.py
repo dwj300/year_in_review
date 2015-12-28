@@ -99,12 +99,12 @@ def str2bool(v):
     return v.lower() in ("yes", "true", "t", "1")
 
 
-@app.route('/review/<private_str>')
-def review(private_str):
-    private = str2bool(private_str)
+@app.route('/review/<public_str>')
+def review(public_str):
+    public = str2bool(public_str)
     # Parse CLODUAMQP_URL (fallback to localhost)
     # send a message
-    data = {'token': session['token'], 'username': session['username'], 'name': session['name'], 'private': private}
+    data = {'token': session['token'], 'username': session['username'], 'name': session['name'], 'public': public}
     channel.basic_publish(exchange='',
                           routing_key='work',
                           body=json.dumps(data))

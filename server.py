@@ -92,11 +92,16 @@ def token_getter():
         return session['token']
 
 
-@app.route('/review')
-def review():
+def str2bool(v):
+    return v.lower() in ("yes", "true", "t", "1")
+
+
+@app.route('/review<private_str>')
+def review(private_str):
+    private = str2bool(private_str)
     # Parse CLODUAMQP_URL (fallback to localhost)
     # send a message
-    data = {'token': session['token'], 'username': session['username'], 'name': session['name']}
+    data = {'token': session['token'], 'username': session['username'], 'name': session['name'], 'private': private}
     channel.basic_publish(exchange='',
                           routing_key='work',
                           body=json.dumps(data))
@@ -106,9 +111,10 @@ def review():
     # ToDo: deal with private!
     # ToDo: also filter by org or nah
     # maybe move to new method, or even class
+    """
     private = True
-    """print(session['user'].keys())
-    user = session['user']"""
+    print(session['user'].keys())
+    user = session['user']
     token = session['token']
     # repos_url = user['repos_url']
     # print(repos_url)
@@ -155,7 +161,7 @@ def review():
     print("hmm1")
     f.write(resp)
     f.close()
-    return resp
+    return resp"""
 
 
 @app.errorhandler(404)

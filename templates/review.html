@@ -119,12 +119,14 @@
         .domain([0, d3.max(day_data1)])
         .range([0, 420]);
 
-    d3.select(".chart")
-      .selectAll("div")
-        .data(day_data1)
-      .enter().append("div")
-        .style("width", function(d) { return x(d) + "px"; })
-        .text(function(d) { return d; });
+   $(document).ready(function() {
+      d3.select(".chart")
+        .selectAll("div")
+          .data(day_data1)
+        .enter().append("div")
+          .style("width", function(d) { return x(d) + "px"; })
+          .text(function(d) { return d; });
+  }
    </script>
 
   </head>

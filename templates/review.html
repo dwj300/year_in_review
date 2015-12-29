@@ -50,6 +50,16 @@
       ga('send', 'pageview');
 
     </script>
+    <style>
+.chart div {
+  font: 10px sans-serif;
+  background-color: steelblue;
+  text-align: right;
+  padding: 3px;
+  margin: 1px;
+  color: white;
+}
+</style>
 
     <script>(function(d, s, id) {
       var js, fjs = d.getElementsByTagName(s)[0];
@@ -61,7 +71,7 @@
     </script>
 
     <script>
-      var heat_data = {
+      var heat_data; //= {
         {% for k,v in heat.items() %}
         "{{ k|e }}": {{ v|e }},
         {% endfor %}
@@ -87,9 +97,35 @@
     <script>
       var day_data = [
       {% for day in days %}
-      {'name':{{ day_names[loop.index0] }}, 'value':{{ day }} },
+      {{ day }},
       {% endfor %}
+     var day_data1 = [ 10, 20, 10, 40, 15, 25, 35];
     </script>
+
+    <script>
+      var weekdays = ["Mon","Tues","Wed","Thurs","Fri","Sat","Sun"];
+      var formatDay = function(d) {
+            return weekdays[d % 7] + "day";      
+          }
+   </script>
+
+   <script>
+    var xAxis = d3.svg.axis()
+        .scale(x)
+        .orient("bottom")
+        .tickFormat(formatDay);
+
+    var x = d3.scale.linear()
+        .domain([0, d3.max(day_data1)])
+        .range([0, 420]);
+
+    d3.select(".chart")
+      .selectAll("div")
+        .data(day_data1)
+      .enter().append("div")
+        .style("width", function(d) { return x(d) + "px"; })
+        .text(function(d) { return d; });
+   </script>
 
   </head>
 
@@ -175,6 +211,8 @@
                 <div class="col-lg-8 col-lg-offset-2">
                     <h2>Repos</h2>
                     <p>Repo Data here</p>
+                    <div class="chart"></div>
+
                 </div>
             </div>
         </div>

@@ -71,7 +71,7 @@
     </script>
 
     <script>
-      var heat_data; //= {
+      var heat_data; = {
         {% for k,v in heat.items() %}
         "{{ k|e }}": {{ v|e }},
         {% endfor %}

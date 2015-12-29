@@ -84,6 +84,13 @@
         });
     </script>
 
+    <script>
+      var day_data = [
+      {% for day in days %}
+      {'name':{{ day_names[loop.index0] }}, 'value':{{ day }} },
+      {% endfor %}
+    </script>
+
   </head>
 
   <body id="page-top" data-spy="scroll" data-target=".navbar-fixed-top">

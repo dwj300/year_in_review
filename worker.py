@@ -109,7 +109,8 @@ def do_work(ch, method, properties, body):
                                best_day=DAYS[best_day],
                                name=name,
                                heat=heat,
-                               public=pub)
+                               public=pub,
+                               day_names=DAYS)
     print("hmm")
     # f = open('static/'+username+".html", 'w+')
     print("hmm1")

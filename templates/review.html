@@ -71,7 +71,7 @@
     </script>
 
     <script>
-      var heat_data; = {
+      var heat_data = {
         {% for k,v in heat.items() %}
         "{{ k|e }}": {{ v|e }},
         {% endfor %}
@@ -98,7 +98,7 @@
       var day_data = [
       {% for day in days %}
       {{ day }},
-      {% endfor %}
+      {% endfor %}];
      var day_data1 = [ 10, 20, 10, 40, 15, 25, 35];
     </script>
 

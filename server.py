@@ -13,6 +13,7 @@ from azure.storage.blob import BlobService
 # todo: add robots
 # todo: add messages!!! (should be easy)
 # todo: add graph of commits vs day of week!
+# todo: maybe delete if file exists in worker?
 
 app = Flask(__name__)
 app.config['GITHUB_CLIENT_ID'] = os.environ['GITHUB_CLIENT_ID']

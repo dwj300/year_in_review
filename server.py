@@ -63,12 +63,14 @@ def logout():
 
 @app.route('/delete')
 def delete():
-    print("here")
     if 'username' in session:
         username = session['username']
-        blob_service.delete_blob('static', username+".html")
-        flash("The file: {0}.html was succesfully deleted!".format(username))
-    print("here1")
+        try:
+            blob_service.delete_blob('static', username+".html")
+            error = "The file: {0}.html was succesfully deleted!"
+            flash(error.format(username))
+        except:
+            pass
     return redirect(url_for('index'))
 
 

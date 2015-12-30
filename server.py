@@ -63,10 +63,12 @@ def logout():
 
 @app.route('/delete')
 def delete():
+    print("here")
     if 'username' in session:
         username = session['username']
         blob_service.delete_blob('static', username+".html")
         flash("The file: {0}.html was succesfully deleted!".format(username))
+    print("here1")
     return redirect(url_for('index'))
 
 
@@ -121,9 +123,7 @@ def review(public_str):
     print(" [x] Sent" + json.dumps(data))
     resp = render_template('wait.html', username=session['username'])
     return resp
-    # ToDo: deal with private!
     # ToDo: also filter by org or nah
-    # maybe move to new method, or even class
 
 
 @app.errorhandler(404)

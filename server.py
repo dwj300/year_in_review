@@ -14,6 +14,8 @@ from azure.storage.blob import BlobService
 # todo: add messages!!! (should be easy)
 # todo: add graph of commits vs day of week!
 # todo: maybe delete if file exists in worker?
+# todo: change style of graphs
+# todo: add share to twitter
 
 app = Flask(__name__)
 app.config['GITHUB_CLIENT_ID'] = os.environ['GITHUB_CLIENT_ID']

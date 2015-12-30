@@ -266,7 +266,8 @@ var chart = d3.select(".chart")
 var bar = chart.selectAll("g")
     .data(data)
     .enter().append("g")
-    .attr("transform", function(d, i) { return "translate(0," + i * barHeight + ")"; });
+    .attr("transform", function(d, i) { return "translate(0," + i * barHeight + ")"; })
+    .attr("transform", "rotate(-90)");
 
 bar.append("rect")
     .attr("width", x)

@@ -81,7 +81,16 @@
         </div>
         <!-- /.container -->
     </nav>
-
+<!-- Messages -->
+{% with messages = get_flashed_messages() %}
+  {% if messages %}
+    <ul class=flashes>
+    {% for message in messages %}
+      <li>{{ message }}</li>
+    {% endfor %}
+    </ul>
+  {% endif %}
+{% endwith %}
     <!-- Intro Header -->
     <header class="intro">
         <div class="intro-body">

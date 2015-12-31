@@ -55,6 +55,8 @@ def login():
 
 @app.route('/logout')
 def logout():
+    if 'username' in session:
+        flash('Successfully logged out {0}!'.format(session['username']))
     session.pop('token', None)
     session.pop('github_user_id', None)
     session.pop('username', None)

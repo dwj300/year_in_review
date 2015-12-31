@@ -132,8 +132,12 @@
                     <h2>Get Yours</h2>
                     <p>How much of a life did you have this year? Find out!</p>
                     <!-- TODO: fix this -->
+                    {% if name is defined %}
                     <a href="review/True" class="btn btn-default btn-lg">Get {{ name }}'s public year-in-review</a>
                     <a href="review/False" class="btn btn-default btn-lg">Get {{ name }}'s private year-in-review</a>
+                    {% else %}
+                    <p>Please login (link at top of page)<p>
+                    {% endif %}
                     <p>Please note, we will store your year in review to enable sharing on FB/twitter. If for any reason you don't want it anymore, please click the delete page button at the top of the page!</p>
                 </div>
             </div>

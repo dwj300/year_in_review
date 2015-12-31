@@ -99,6 +99,7 @@ def authorized(oauth_token):
     session['name'] = response['name']
     session['avatar_url'] = response['avatar_url']
     session['user'] = response
+    flash("Cool, {0} has successfully logged in".format(session['username']))
     return redirect(next_url)
 
 

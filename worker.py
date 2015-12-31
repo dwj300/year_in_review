@@ -34,8 +34,6 @@ DAYS = ['Monday', 'Tuesday', 'Wednesday', 'Thursday',
 def do_work(ch, method, properties, body):
     print("[x] Received {0}".format(body))
     data = json.loads(body.decode("utf-8"))
-    print(data['token'])
-    print(data['username'])
     # ToDo: deal with private!
     # ToDo: also filter by org or nah
     # maybe move to new method, or even class
@@ -46,7 +44,6 @@ def do_work(ch, method, properties, body):
     name = data['name']
     # repos_url = user['repos_url']
     # print(repos_url)
-    print(token)
     days = [0 for _ in range(7)]
     heatmap = [0 for _ in range(365)]
     start = datetime(2015, 1, 1)  # make global?
@@ -64,7 +61,6 @@ def do_work(ch, method, properties, body):
     dele = 0
     for repo in repos:
         my_repo = namedtuple('Repo', ['name', 'num_commits'])
-        print(repo.name)
         my_repo.name = repo.name
         try:
             commits = repo.get_commits(author=user, since=start)
@@ -79,7 +75,6 @@ def do_work(ch, method, properties, body):
                 days[day] += 1
                 day_of_year = commit.commit.author.date.timetuple().tm_yday
                 heatmap[day_of_year] += 1
-            print(len(my_commits))
             my_repo.num_commits = len(my_commits)
             if my_repo.num_commits > 0:
                 my_repos.append(my_repo)
@@ -111,9 +106,7 @@ def do_work(ch, method, properties, body):
                                heat=heat,
                                public=pub,
                                day_names=DAYS)
-    print("hmm")
     # f = open('static/'+username+".html", 'w+')
-    print("hmm1")
     # f.write(resp)
     # f.close()
     blob_service.put_blob('static', username+".html", resp.encode(),

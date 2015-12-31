@@ -293,7 +293,9 @@ bar.append("text")
 
       $(document).ready(function() {
         var ctx = $("#myChart").get(0).getContext("2d");
-        var myBarChart = new Chart(ctx).Bar(chartData, {});
+        var myBarChart = new Chart(ctx).Bar(chartData, {
+          scaleFontColor: "#FFFFFF" 
+        });
         
 
           

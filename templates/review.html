@@ -154,10 +154,10 @@
                         <a href="#page-top"></a>
                     </li>
                     <li>
-                        <a class="page-scroll" href="#commits">Commits</a>
+                        <a class="page-scroll" href="#repos">Repos</a>
                     </li>
                     <li>
-                        <a class="page-scroll" href="#repos">Repos</a>
+                        <a class="page-scroll" href="#commits">Commits</a>
                     </li>
                     <li>
                         <a class="page-scroll" href="#heatmap">Heatmap</a>
@@ -188,11 +188,9 @@
     </header>
 
     <!-- Commits Section -->
-    <section id="commits" class="container content-section text-center">
+    <section id="repos" class="container content-section text-center">
         <div class="row">
             <div class="col-lg-8">
-                <h2>Commits</h2>
-                <p>Commit Data here</p>
                 <div class="container">
                   <h1>Here is your reivew, {{ username }}</h1>
                   <p>You had: {{ total }}{{ public }} commits in the last year</p>
@@ -200,7 +198,6 @@
                   {% for repo in repos %}
                   <p>{{ repo.name }} - {{ repo.num_commits }}</p>
                   {% endfor %}
-                  <p>Your busiest day of the week was {{ best_day }}, with {{ best_day_num }} commits</p>
                   <div class="fb-share-button" data-href="https://year-in-review.herokuapp.com/static/{{ username }}.html" data-layout="button"></div>
                 </div>
             </div>
@@ -208,12 +205,12 @@
     </section>
 
     <!-- Repos Section -->
-    <section id="repos" class="content-section text-center">
+    <section id="commits" class="content-section text-center">
         <div class="download-section">
             <div class="container">
                 <div class="col-lg-8 col-lg-offset-2">
-                    <h2>Repos</h2>
-                    <p>Repo Data here</p>
+                    <h2>Commits</h2>
+                    <p>Your busiest day of the week was {{ best_day }}, with {{ best_day_num }} commits</p>
                     <canvas id="myChart" width="400" height="400"></canvas>
                 </div>
             </div>
@@ -221,11 +218,10 @@
     </section>
 
     <!-- Heatmap Section -->
-    <section id="contact" class="container content-section text-center">
+    <section id="heatmap" class="container content-section text-center">
         <div class="row">
             <div class="col-lg-8 col-lg-offset-2">
                 <h2>Heatmap</h2>
-                <p>Heatmap goes here</p>
                 <div id="cal-heatmap"></div>
             </div>
         </div>
@@ -252,37 +248,6 @@
     <script src="{{ url_for('static', filename='js/grayscale.js') }}"></script>
 
       <script>
-        /*
-var width = 960,
-    height = 500;
-
-var y = d3.scale.linear()
-    .domain([0, d3.max(data)])
-    .range([height, 0]);
-
-var chart = d3.select(".chart")
-    .attr("width", width)
-    .attr("height", height);
-
-var barWidth = width / data.length;
-
-var bar = chart.selectAll("g")
-    .data(data)
-    .enter().append("g")
-    .attr("transform", function(d, i) { return "translate(" + i * barWidth + ",0)"; });
-
-bar.append("rect")
-      .attr("y", function(d) { return y(d.value); })
-      .attr("height", function(d) { return height - y(d.value); })
-      .attr("width", barWidth - 1);
-
-bar.append("text")
-      .attr("x", barWidth / 2)
-      .attr("y", function(d) { return y(d.value) + 3; })
-      .attr("dy", ".75em")
-      .text(function(d) { return d.value; });
-      */
-
       var chartData = {
         labels: weekdays,
         datasets: [

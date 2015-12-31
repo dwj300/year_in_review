@@ -1,6 +1,7 @@
 <html>
   <head>
     <script src="https://code.jquery.com/jquery-2.1.4.min.js"></script>
+    <script src="http://fgnass.github.io/spin.js/spin.min.js"></script>
     <script>
         (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
         (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
@@ -9,13 +10,39 @@
  
         ga('create', 'UA-71693829-1', 'auto');
         ga('send', 'pageview');
+
   </script> 
   <script>
     url = "http://ghyearinreview.blob.core.windows.net/static/{{ username }}.html";
 
     $(document).ready(function() {
-      console.log("leggo");
-      dowork();
+        var opts = {
+            lines: 13 // The number of lines to draw
+            , length: 31 // The length of each line
+            , width: 9 // The line thickness
+            , radius: 28 // The radius of the inner circle
+            , scale: 0.5 // Scales overall size of the spinner
+            , corners: 0.8 // Corner roundness (0..1)
+            , color: '#000' // #rgb or #rrggbb or array of colors
+            , opacity: 0.25 // Opacity of the lines
+            , rotate: 0 // The rotation offset
+            , direction: -1 // 1: clockwise, -1: counterclockwise
+            , speed: 1 // Rounds per second
+            , trail: 60 // Afterglow percentage
+            , fps: 20 // Frames per second when using setTimeout() as a fallback for CSS
+            , zIndex: 2e9 // The z-index (defaults to 2000000000)
+            , className: 'spinner' // The CSS class to assign to the spinner
+            , top: '50%' // Top position relative to parent
+            , left: '50%' // Left position relative to parent
+            , shadow: false // Whether to render a shadow
+            , hwaccel: false // Whether to use hardware acceleration
+            , position: 'absolute' // Element positioning
+        }
+
+        var target = document.getElementById('spin');
+        var spinner = new Spinner(opts).spin(target);
+        console.log("leggo");
+        dowork();
     });
    
     function dowork() {
@@ -24,7 +51,11 @@
   </script>
   </head>
   <body>
-    <p id="foo">So this is kinda expensive to do, so just wait here for a while while your year in review is being generated, then the page will automatically redirect when finsihed. Should take at most a minute or two. Please be patient!</p> <!--then click this link <a href="https://ghyearinreview.blob.core.windows.net/static/{{ username }}.html">YEAR IN REVIEW</a></p>-->
+    <p id="foo" align="center">Please wait a sec, you will be automatically redirected.<p>
+    <div id = "spin" style='position: absolute; width: 0px; left: 50%; top: 50%;'>
+    <!--
+    <p id="foo">So this is kinda expensive to do, so just wait here for a while while your year in review is being generated, then the page will automatically redirect when finsihed. Should take at most a minute or two. Please be patient!</p>-->
+    <!--then click this link <a href="https://ghyearinreview.blob.core.windows.net/static/{{ username }}.html">YEAR IN REVIEW</a></p>-->
   </body>
 </html>
 
